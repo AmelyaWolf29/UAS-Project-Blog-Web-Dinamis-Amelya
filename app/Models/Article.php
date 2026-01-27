@@ -14,7 +14,7 @@ class Article extends Model
         'status', 'published_at', 'featured_image', 
         'meta_title', 'meta_description','meta_keywords',
     ];
-
+    
     protected $casts = [
         'published_at' => 'datetime',
     ];

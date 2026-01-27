@@ -37,8 +37,12 @@ class ArticleForm
             FileUpload::make('featured_image')
                 ->label('Gambar Utama')
                 ->image()
-                ->directory('articles')
-                ->visibility('public'),
+                ->disk('public')        
+                ->directory('articles') 
+                ->visibility('public')
+                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp']) 
+                ->maxSize(2048) 
+                ->required(),
 
             RichEditor::make('content')
                 ->label('Konten')
