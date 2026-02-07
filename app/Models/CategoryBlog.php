@@ -15,4 +15,9 @@ class CategoryBlog extends Model
         'name', 'description', 'is_active',
     ];
 
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'category_blog_id');
+    }
+
 }

@@ -19,6 +19,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Js;
 use Illuminate\View\ComponentAttributeBag;
 
+use function Filament\Support\generate_href_html;
 use function Filament\Support\generate_icon_html;
 
 class IconColumn extends Column implements HasEmbeddedView
@@ -38,14 +39,14 @@ class IconColumn extends Column implements HasEmbeddedView
      */
     protected string | array | Closure | null $falseColor = null;
 
-    protected string | BackedEnum | Closure | false | null $falseIcon = null;
+    protected string | BackedEnum | Htmlable | Closure | false | null $falseIcon = null;
 
     /**
      * @var string | array<string> | Closure | null
      */
     protected string | array | Closure | null $trueColor = null;
 
-    protected string | BackedEnum | Closure | false | null $trueIcon = null;
+    protected string | BackedEnum | Htmlable | Closure | false | null $trueIcon = null;
 
     protected bool | Closure $isListWithLineBreaks = false;
 
@@ -310,33 +311,43 @@ class IconColumn extends Column implements HasEmbeddedView
                 'fi-wrapped' => $this->canWrap(),
             ]);
 
+        $shouldOpenUrlInNewTab = $this->shouldOpenUrlInNewTab();
+
+        $formatState = function (mixed $stateItem) use ($shouldOpenUrlInNewTab): string {
+            $icon = $this->getIcon($stateItem);
+
+            if (blank($icon)) {
+                return '';
+            }
+
+            $color = $this->getColor($stateItem);
+            $size = $this->getSize($stateItem);
+
+            $item = generate_icon_html($icon, attributes: (new ComponentAttributeBag)
+                ->merge([
+                    'x-tooltip' => filled($tooltip = $this->getTooltip($stateItem))
+                        ? '{
+                            content: ' . Js::from($tooltip) . ',
+                            theme: $store.theme,
+                            allowHTML: ' . Js::from($tooltip instanceof Htmlable) . ',
+                        }'
+                        : null,
+                ], escape: false)
+                ->color(IconComponent::class, $color), size: $size ?? IconSize::Large)
+                ->toHtml();
+
+            if (filled($url = $this->getUrl($stateItem))) {
+                $item = '<a ' . generate_href_html($url, $shouldOpenUrlInNewTab)->toHtml() . '>' . $item . '</a>';
+            }
+
+            return $item;
+        };
+
         ob_start(); ?>
 
         <div <?= $attributes->toHtml() ?>>
             <?php foreach ($state as $stateItem) { ?>
-                <?php
-                $icon = $this->getIcon($stateItem);
-
-                if (blank($icon)) {
-                    continue;
-                }
-
-                $color = $this->getColor($stateItem);
-                $size = $this->getSize($stateItem);
-                ?>
-
-                <?= generate_icon_html($icon, attributes: (new ComponentAttributeBag)
-                    ->merge([
-                        'x-tooltip' => filled($tooltip = $this->getTooltip($stateItem))
-                            ? '{
-                                content: ' . Js::from($tooltip) . ',
-                                theme: $store.theme,
-                                allowHTML: ' . Js::from($tooltip instanceof Htmlable) . ',
-                            }'
-                            : null,
-                    ], escape: false)
-                    ->color(IconComponent::class, $color), size: $size ?? IconSize::Large)
-                    ->toHtml() ?>
+                <?= $formatState($stateItem) ?>
             <?php } ?>
         </div>
 

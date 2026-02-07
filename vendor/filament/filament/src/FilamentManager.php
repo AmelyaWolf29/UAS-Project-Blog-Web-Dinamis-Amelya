@@ -197,6 +197,21 @@ class FilamentManager
         return $this->getCurrentOrDefaultPanel()->getSerifFontHtml();
     }
 
+    public function getFontPreloadHtml(): Htmlable
+    {
+        return $this->getCurrentOrDefaultPanel()->getFontPreloadHtml();
+    }
+
+    public function getMonoFontPreloadHtml(): Htmlable
+    {
+        return $this->getCurrentOrDefaultPanel()->getMonoFontPreloadHtml();
+    }
+
+    public function getSerifFontPreloadHtml(): Htmlable
+    {
+        return $this->getCurrentOrDefaultPanel()->getSerifFontPreloadHtml();
+    }
+
     public function getFontProvider(): string
     {
         return $this->getCurrentOrDefaultPanel()->getFontProvider();
@@ -773,6 +788,14 @@ class FilamentManager
     public function getDatabaseNotificationsPosition(): DatabaseNotificationsPosition
     {
         return $this->getCurrentOrDefaultPanel()->getDatabaseNotificationsPosition();
+    }
+
+    /**
+     * @return class-string<Component>
+     */
+    public function getDatabaseNotificationsLivewireComponent(): string
+    {
+        return $this->getCurrentOrDefaultPanel()->getDatabaseNotificationsLivewireComponent();
     }
 
     public function hasTopNavigation(): bool

@@ -29,7 +29,6 @@
         <div
             @if ($collapsible)
                 x-on:click="$store.sidebar.toggleCollapsedGroup(label)"
-                role="button"
             @endif
             @if ($sidebarCollapsible)
                 x-show="$store.sidebar.isOpen"
@@ -64,7 +63,6 @@
     @if ($hasDropdown)
         <x-filament::dropdown
             :placement="(__('filament-panels::layout.direction') === 'rtl') ? 'left-start' : 'right-start'"
-            teleport
             x-show="! $store.sidebar.isOpen"
         >
             <x-slot name="trigger">
@@ -131,6 +129,7 @@
                             $itemUrl = $item->getUrl();
                             $itemIcon = $itemIsActive ? ($item->getActiveIcon() ?? $item->getIcon()) : $item->getIcon();
                             $shouldItemOpenUrlInNewTab = $item->shouldOpenUrlInNewTab();
+                            $itemExtraAttributes = $item->getExtraAttributeBag();
                         @endphp
 
                         <x-filament::dropdown.list.item
@@ -142,6 +141,7 @@
                             :icon="$itemIcon"
                             tag="a"
                             :target="$shouldItemOpenUrlInNewTab ? '_blank' : null"
+                            :attributes="\Filament\Support\prepare_inherited_attributes($itemExtraAttributes)"
                         >
                             {{ $item->getLabel() }}
                         </x-filament::dropdown.list.item>
@@ -179,6 +179,7 @@
                 $itemIcon = $item->getIcon();
                 $shouldItemOpenUrlInNewTab = $item->shouldOpenUrlInNewTab();
                 $itemUrl = $item->getUrl();
+                $itemExtraAttributes = $item->getExtraAttributeBag();
 
                 if ($icon) {
                     if ($hasDropdown || (blank($itemIcon) && blank($itemActiveIcon))) {
@@ -206,6 +207,7 @@
                 :sidebar-collapsible="$sidebarCollapsible"
                 :sub-navigation="$subNavigation"
                 :url="$itemUrl"
+                :attributes="\Filament\Support\prepare_inherited_attributes($itemExtraAttributes)"
             >
                 {{ $item->getLabel() }}
 

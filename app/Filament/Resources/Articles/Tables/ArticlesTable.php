@@ -12,6 +12,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
+use Illuminate\Database\Eloquent\Builder;
 
 class ArticlesTable
 {
@@ -30,6 +31,11 @@ class ArticlesTable
                     ->label('Gambar Utama')                    
                     ->square()
                     ->size(60),
+                TextColumn::make('categoryBlog.name') 
+                    ->label('Kategori Blog')
+                    ->badge() 
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()

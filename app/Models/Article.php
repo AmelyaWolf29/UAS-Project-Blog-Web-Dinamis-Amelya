@@ -11,11 +11,16 @@ class Article extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'title', 'slug', 'excerpt', 'content',
-        'status', 'published_at', 'featured_image', 
+        'status', 'published_at', 'featured_image', 'category_blog_id',
         'meta_title', 'meta_description','meta_keywords',
     ];
     
     protected $casts = [
         'published_at' => 'datetime',
     ];
+
+    public function categoryBlog()
+    {
+        return $this->belongsTo(CategoryBlog::class, 'category_blog_id');
+    }
 }

@@ -85,9 +85,11 @@ trait CanSortRecords
             return $query->orderBy($this->getTable()->getReorderColumn(), $this->getTable()->getReorderDirection());
         }
 
+        $tableSortColumn = $this->getTableSortColumn();
+
         if (
-            $this->getTableSortColumn() &&
-            $column = $this->getTable()->getSortableVisibleColumn($this->getTableSortColumn())
+            $tableSortColumn &&
+            $column = $this->getTable()->getSortableVisibleColumn($tableSortColumn)
         ) {
             $sortDirection = $this->getTableSortDirection() === 'desc' ? 'desc' : 'asc';
 
@@ -99,11 +101,14 @@ trait CanSortRecords
 
         if (
             is_string($defaultSort) &&
-            ($defaultSort !== $this->getTableSortColumn()) &&
+            ($defaultSort !== $tableSortColumn) &&
             ($sortColumn = $this->getTable()->getSortableVisibleColumn($defaultSort))
         ) {
             $sortColumn->applySort($query, $sortDirection);
-        } elseif (is_string($defaultSort)) {
+        } elseif (
+            is_string($defaultSort) &&
+            $defaultSort !== $tableSortColumn
+        ) {
             $query->orderBy($defaultSort, $sortDirection);
         }
 
@@ -124,7 +129,6 @@ trait CanSortRecords
 
             if (
                 is_string($order['column'] ?? null) &&
-                str($order['column'] ?? null)->contains('.') &&
                 str($order['column'] ?? null)->afterLast('.')->is(
                     str($qualifiedKeyName)->afterLast('.')
                 )

@@ -10,6 +10,8 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Section;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class ArticleForm
@@ -43,6 +45,16 @@ class ArticleForm
                 ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp']) 
                 ->maxSize(2048) 
                 ->required(),
+
+            Select::make('category_blog_id')
+                    ->label('Kategori Blog')
+                    ->relationship(
+                        name: 'categoryBlog',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn (Builder $query) => $query->where('id', '>', 20))
+                        ->searchable()
+                        ->preload()
+                        ->required(),
 
             RichEditor::make('content')
                 ->label('Konten')
