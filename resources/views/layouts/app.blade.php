@@ -46,19 +46,19 @@
                 <div class="col-md-4 mb-4">
                     <h5>Kategori</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#">Restaurant</a></li>
-                        <li><a href="#">Storyteller</a></li>
-                        <li><a href="#">Games</a></li>
-                        <li><a href="#">Technology</a></li>
+                        <li><a href="#kategori">Restaurant</a></li>
+                        <li><a href="#kategori">Storyteller</a></li>
+                        <li><a href="#kategori">Games</a></li>
+                        <li><a href="#kategori">Technology</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-4">
                     <h5>Follow Us</h5>
                     <div class="social-links">
-                        <a href="#" class="me-3"><i class="fab fa-facebook fa-2x"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-twitter fa-2x"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-instagram fa-2x"></i></a>
-                        <a href="#"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="https://www.facebook.com/share/179Ej5VWi5/" class="me-3"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="https://x.com/ChowAmelya" class="me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="https://www.instagram.com/amelya_chow?igsh=czBma29mZDJlMXB4" class="me-3"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="https://youtube.com/@amelyachow2797?si=Je62dJ9WL3v5yoKZ"><i class="fab fa-youtube fa-2x"></i></a>
                     </div>
                 </div>
             </div>
