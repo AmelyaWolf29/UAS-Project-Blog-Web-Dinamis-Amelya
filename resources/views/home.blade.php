@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
-
+@section('title', $seo->meta_title ?? 'Home')
+@section('meta_description', $seo->meta_description ?? 'Portal Informasi Terlengkap')
+@section('meta_keywords', $seo->meta_keywords ?? 'berita, teknologi, viral')
 @section('content')
 
 <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">

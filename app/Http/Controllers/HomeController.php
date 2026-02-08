@@ -6,16 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Banner;   
 use App\Models\CategoryBlog;
+use App\Models\SettingSeo;
 
 class HomeController extends Controller
 {
     public function index()
     {
         $banners = Banner::where('is_active', true)->latest()->take(3)->get();
-        $categories = CategoryBlog::latest()->take(4)->get();
+        $categories = CategoryBlog::latest()->take(5)->get();
         $hotNews = Article::latest()->take(2)->get();
         $latestNews = Article::latest()->get();
-        return view('home', compact('banners','categories','hotNews', 'latestNews'));
+        $seo = SettingSeo::first();
+        return view('home', compact('banners','categories','hotNews', 'latestNews', 'seo'));
     }
 
     public function category(CategoryBlog $category)
